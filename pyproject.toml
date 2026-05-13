@@ -1,0 +1,76 @@
+[project]
+name = "xishi-bot"
+version = "2.0.0-alpha"
+description = "王者荣耀西施QQ角色扮演机器人 — Claude Code + cc-connect + NapCat"
+requires-python = ">=3.12"
+readme = "V2.md"
+license = { text = "MIT" }
+authors = [{ name = "xiaojie" }]
+keywords = ["qq-bot", "chatbot", "roleplay", "claude-code", "napcat"]
+
+dependencies = [
+    "websockets>=14.0,<17.0",
+    "aiosqlite>=0.20,<1.0",
+    "fastapi>=0.100,<1.0",
+    "uvicorn>=0.20,<1.0",
+    "apscheduler>=3.10,<4.0",
+    "httpx>=0.25,<1.0",
+    "jieba>=0.42,<1.0",
+    "openai>=2.0,<3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=4.0",
+    "ruff>=0.3",
+    "black>=24.0",
+    "mypy>=1.8",
+]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = ["-v", "--tb=short", "--strict-markers"]
+
+[tool.coverage.run]
+source = ["v2-engine"]
+omit = [
+    "v2-engine/smoke_test.py",
+    "v2-engine/generate_pdf.py",
+    "v2-engine/send_notify.py",
+]
+
+[tool.coverage.report]
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["v2-engine"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = false
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
