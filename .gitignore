@@ -50,3 +50,11 @@ qq-proxy/proxy.log
 *.tmp
 *.bak
 *.pdf
+*.docx
+.coverage
+
+# ===== cc-connect Runtime =====
+cc-connect/.config.toml.lock
+
+# ===== QQ Chat Attachments (runtime cache) =====
+xishi-bot/.cc-connect/
