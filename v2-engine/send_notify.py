@@ -1,6 +1,7 @@
 """Send QQ notification to 小杰 via NapCat WebSocket."""
 import asyncio
 import json
+
 import websockets
 
 TARGET = "3066862564"

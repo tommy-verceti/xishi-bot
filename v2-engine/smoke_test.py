@@ -42,6 +42,7 @@ print(f"Filter clean test: PASS -> {text!r}")
 
 # Test DB init
 import asyncio
+
 from db.database import get_db, init_db
 
 

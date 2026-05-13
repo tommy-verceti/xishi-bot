@@ -11,7 +11,6 @@ import json
 import logging
 
 import websockets
-
 from config import CONFIG
 from db.database import get_db
 from filter import filter_send_msg
@@ -64,8 +63,8 @@ async def handle(websocket: websockets.WebSocketServerProtocol) -> None:
             async def up_to_down() -> None:
                 """NapCat -> cc-connect: memory + emotion + dev commands."""
                 nonlocal current_user
-                from memory.manager import process_inbound
                 from emotion.engine import update_on_user_message
+                from memory.manager import process_inbound
 
                 async for msg in upstream:
                     try:
@@ -116,8 +115,8 @@ async def handle(websocket: websockets.WebSocketServerProtocol) -> None:
             async def down_to_up() -> None:
                 """cc-connect -> NapCat: filter + emotion + stickers + store."""
                 from emotion.engine import update_on_reply
-                from stickers.matcher import match_sticker, build_sticker_segment
                 from memory.manager import process_outbound
+                from stickers.matcher import build_sticker_segment, match_sticker
 
                 nonlocal current_user
 

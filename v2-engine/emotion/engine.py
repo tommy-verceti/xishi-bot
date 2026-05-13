@@ -5,11 +5,10 @@ Mood: discrete states expressed through Xishi's language.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import aiosqlite
-
 from config import CONFIG
 
 logger = logging.getLogger(__name__)
@@ -72,7 +71,7 @@ async def update_on_user_message(
 ) -> dict[str, Any]:
     em = await get_or_create_emotion(db, user_id)
     pos, neg = _count_signals(text)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     hour = datetime.now().hour
 
     favorability = float(em["favorability"]) + 0.005
@@ -105,7 +104,7 @@ async def update_on_reply(
     db: aiosqlite.Connection, user_id: int, reply_text: str
 ) -> None:
     em = await get_or_create_emotion(db, user_id)
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     length_bonus = min(0.01, len(reply_text) * 0.0001)
     favorability = float(em["favorability"]) + length_bonus
     favorability = max(-1.0, min(1.0, favorability))
@@ -121,7 +120,7 @@ async def apply_decay(db: aiosqlite.Connection) -> None:
         "SELECT e.id, e.user_id, e.favorability, e.mood_updated_at, u.last_seen "
         "FROM emotions e JOIN users u ON e.user_id = u.id"
     )
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     for row in rows:
         last = row["last_seen"] or row["mood_updated_at"]
         if last is None:

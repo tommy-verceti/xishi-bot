@@ -4,14 +4,13 @@ Phase 6: Web panel for monitoring conversations, users, and bot state.
 """
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
-
-from fastapi import FastAPI, Query
-from fastapi.responses import HTMLResponse
 
 from config import CONFIG
 from db.database import get_db
+from fastapi import FastAPI, Query
+from fastapi.responses import HTMLResponse
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +86,7 @@ async def index() -> str:
 async def health() -> dict[str, Any]:
     return {
         "status": "ok", "version": "2.0.0",
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(UTC).isoformat(),
     }
 
 
@@ -97,7 +96,7 @@ async def stats() -> dict[str, Any]:
     try:
         u = await db.execute_fetchall("SELECT COUNT(*) as c FROM users")
         m = await db.execute_fetchall("SELECT COUNT(*) as c FROM messages")
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        today = datetime.now(UTC).strftime("%Y-%m-%d")
         a = await db.execute_fetchall(
             "SELECT COUNT(*) as c FROM users WHERE last_seen >= ?", (today,)
         )

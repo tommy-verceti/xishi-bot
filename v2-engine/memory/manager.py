@@ -8,7 +8,6 @@ import logging
 from typing import Any
 
 import aiosqlite
-
 from context.builder import build_context, inject_context
 from db.queries import (
     delete_facts,

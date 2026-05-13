@@ -1,8 +1,8 @@
 """SQLite database initialization and connection management."""
 
 import os
-import aiosqlite
 
+import aiosqlite
 from config import CONFIG
 
 SCHEMA = """

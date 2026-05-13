@@ -4,13 +4,11 @@ Phase 1: users + memory_facts + messages tables.
 Phase 2: emotions table.
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import aiosqlite
-
 from config import CONFIG
-
 
 # ── Users (L1) ──────────────────────────────────────────────
 
@@ -26,7 +24,7 @@ async def get_or_create_user(
         await db.execute(
             "UPDATE users SET last_seen = ?, total_messages = total_messages + 1 "
             "WHERE id = ?",
-            (datetime.now(timezone.utc), user["id"]),
+            (datetime.now(UTC), user["id"]),
         )
         await db.commit()
         user["total_messages"] += 1
@@ -35,7 +33,7 @@ async def get_or_create_user(
     await db.execute(
         "INSERT INTO users (qq_id, first_seen, last_seen, total_messages) "
         "VALUES (?, ?, ?, 1)",
-        (qq_id, datetime.now(timezone.utc), datetime.now(timezone.utc)),
+        (qq_id, datetime.now(UTC), datetime.now(UTC)),
     )
     await db.commit()
     rows = await db.execute_fetchall(
@@ -148,7 +146,7 @@ async def _touch_fact(db: aiosqlite.Connection, fact_id: int) -> None:
         "UPDATE memory_facts "
         "SET last_accessed = ?, access_count = access_count + 1 "
         "WHERE id = ?",
-        (datetime.now(timezone.utc), fact_id),
+        (datetime.now(UTC), fact_id),
     )
     await db.commit()
 

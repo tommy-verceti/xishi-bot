@@ -5,7 +5,7 @@ SRC = "E:/xishi-bot/V2.md"
 HTML_TMP = "C:/Users/86152/Desktop/西施Bot-V2版本说明书.html"
 DST = "C:/Users/86152/Desktop/西施Bot-V2版本说明书.pdf"
 
-with open(SRC, "r", encoding="utf-8") as f:
+with open(SRC, encoding="utf-8") as f:
     md = f.read()
 
 html_body = markdown.markdown(

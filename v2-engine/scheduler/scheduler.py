@@ -6,13 +6,12 @@ Phase 4: Timed, random, and reminder proactive messages.
 import asyncio
 import logging
 import random
-from datetime import datetime, timezone, timedelta
+from datetime import UTC, datetime, timedelta
 from typing import Any
 
 import aiosqlite
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-
 from config import CONFIG
 from db.database import get_db
 from db.queries import get_active_users
@@ -23,7 +22,7 @@ scheduler = AsyncIOScheduler()
 
 
 async def _count_today_proactive(db: aiosqlite.Connection, user_id: int) -> int:
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today = datetime.now(UTC).strftime("%Y-%m-%d")
     rows = await db.execute_fetchall(
         "SELECT COUNT(*) as cnt FROM task_log "
         "WHERE user_id = ? AND fired_at >= ? AND status = 'sent'",
@@ -107,7 +106,7 @@ async def _send_one(
     await db.execute(
         "INSERT INTO task_log (user_id, message_sent, fired_at, status) "
         "VALUES (?, ?, ?, ?)",
-        (user["id"], text, datetime.now(timezone.utc), status),
+        (user["id"], text, datetime.now(UTC), status),
     )
     await db.commit()
     logger.info("Proactive %s -> %s: %s", msg_type, user_id, text[:60])
@@ -153,7 +152,7 @@ async def _reminder() -> None:
             "WHERE u.is_active = 1 "
             "AND (u.last_seen < ? OR u.last_seen IS NULL) "
             "GROUP BY u.id",
-            (datetime.now(timezone.utc) - timedelta(hours=72),),
+            (datetime.now(UTC) - timedelta(hours=72),),
         )
         for u_dict in [dict(r) for r in rows][:2]:
             await _send_one(db, u_dict, "reminder")
