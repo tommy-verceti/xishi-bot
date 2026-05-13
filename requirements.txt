@@ -1,0 +1,24 @@
+# xishi-bot V2 Engine dependencies
+# Install: pip install -r requirements.txt
+
+# WebSocket relay (core transport)
+websockets>=14.0,<17.0
+
+# Async SQLite database
+aiosqlite>=0.20,<1.0
+
+# Web developer dashboard (Phase 6)
+fastapi>=0.100,<1.0
+uvicorn>=0.20,<1.0
+
+# Proactive message scheduler (Phase 4)
+apscheduler>=3.10,<4.0
+
+# NapCat HTTP API client (Phase 4)
+httpx>=0.25,<1.0
+
+# Chinese text tokenization (Phase 3 sticker matching)
+jieba>=0.42,<1.0
+
+# Deepseek API client (OpenAI-compatible SDK)
+openai>=2.0,<3.0
