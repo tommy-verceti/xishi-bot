@@ -1,0 +1,52 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ===== Virtual Environment =====
+venv/
+.venv/
+env/
+.env
+
+# ===== IDE =====
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== V2 Engine Runtime Data =====
+v2-engine/data/
+v2-engine/logs/
+v2-engine/stickers/files/*.png
+
+# ===== OS Files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== NapCat QQ Client (binary, ~500MB) =====
+NapCat/
+
+# ===== cc-connect Binary =====
+cc-connect/*.exe
+cc-connect/*.dll
+
+# ===== Secrets & Config with Tokens =====
+cc-connect/config.toml
+NapCat/**/onebot11_*.json
+NapCat/**/napcat_*.json
+NapCat/**/webui.json
+NapCat/**/passkey.json
+
+# ===== Logs =====
+qq-proxy/proxy.log
+
+# ===== Temp & Backup =====
+*.tmp
+*.bak
+*.pdf

@@ -1,0 +1,38 @@
+# cc-connect 配置模板
+# 用法：复制为 config.toml 并填入你的实际路径和密钥
+language = "zh"
+
+[log]
+level = "info"
+
+[display]
+thinking_messages = false
+tool_messages = false
+
+[rate_limit]
+max_messages = 60
+window_secs = 30
+
+# ===== 你的 QQ 机器人项目 =====
+[[projects]]
+name = "my-qq-bot"
+admin_from = "*"
+show_context_indicator = false
+reply_footer = false
+reset_on_idle_mins = 240
+
+[projects.agent]
+type = "claudecode"
+
+[projects.agent.options]
+work_dir = "E:\\your-path\\bot-workdir"
+mode = "bypassPermissions"
+allowed_tools = ["Read", "Grep", "Glob", "WebSearch", "WebFetch"]
+disallowed_tools = ["Bash", "Edit", "Write", "NotebookEdit", "Task", "TodoWrite"]
+
+[[projects.platforms]]
+type = "qq"
+
+[projects.platforms.options]
+ws_url = "ws://127.0.0.1:3002"
+allow_from = "*"
