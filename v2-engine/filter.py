@@ -55,7 +55,12 @@ def filter_send_msg(data: dict[str, Any]) -> FilterResult:
     for kw in CONFIG.block_keywords:
         if kw in full_text:
             logger.info("Blocked: %s", full_text[:80])
-            return FilterResult(action="block", data=None)
+            # For string messages, block entirely.
+            # For array messages, let per-segment filtering handle it
+            # (preserves non-text segments like images).
+            if isinstance(message, str):
+                return FilterResult(action="block", data=None)
+            # Fall through to segment-level processing
 
     if isinstance(message, str):
         cleaned = _clean_text(message)
